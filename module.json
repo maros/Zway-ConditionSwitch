@@ -106,7 +106,24 @@
                           }
                      }
                  }
+             },
+             "negate": {
+                 "order": 6,
+                 "label": "__negate_label__",
+                 "helper": "__negate_helper__"
              }
+             "devices" : {
+                 "fields" : {
+                    "item" : {
+                       "datasource" : "namespaces",
+                       "field" : "devices",
+                       "optionLabels" : "namespaces:devices_thermostat:deviceName",
+                       "type" : "select"
+                    }
+                 },
+                 "label" : "__devices_label__",
+                 "order" : 7
+              }
         }
     },
     "repository":{
@@ -206,7 +223,20 @@
                      },
                      "type" : "object"
                 }
-            }
+            },
+            "negate": {
+                "type": "boolean",
+                "default": false,
+            },
+            "devices" : {
+                "items" : {
+                   "datasource" : "namespaces",
+                   "enum" : "namespaces:devices_binarySwitch:deviceId",
+                   "field" : "enum",
+                   "required" : true
+                },
+                "type" : "array"
+             }
         },
         "required":true,
         "type":"object"
