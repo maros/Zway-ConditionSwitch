@@ -59,7 +59,7 @@
                 "order": 3,
                 "helper": "__binary_helper__",
                 "label": "__binary_label__",
-                "item": {
+                "items": {
                     "fields": {
                         "device": {
                             "datasource": "namespaces",
@@ -79,7 +79,7 @@
                 "order": 4,
                 "helper": "__multilevel_helper__",
                 "label": "__multilevel_label__",
-                "item": {
+                "items": {
                     "fields": {
                         "device": {
                             "datasource": "namespaces",
@@ -117,7 +117,7 @@
                     "item": {
                         "datasource": "namespaces",
                         "field": "devices",
-                        "optionLabels": "namespaces:devices_thermostat:deviceName",
+                        "optionLabels": "namespaces:devices_switchBinary:deviceName",
                         "type": "select"
                     }
                 },
@@ -233,7 +233,7 @@
             "devices": {
                 "items": {
                     "datasource": "namespaces",
-                    "enum": "namespaces:devices_binarySwitch:deviceId",
+                    "enum": "namespaces:devices_switchBinary:deviceId",
                     "field": "enum",
                     "required": true
                 },
