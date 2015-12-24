@@ -255,7 +255,11 @@ ConditionSwitch.prototype.checkCondition = function() {
     _.each(self.config.devices,function(deviceId) {
         var device = self.controller.devices.get(deviceId);
         if (typeof(device) !== 'undefined') {
-            device.performCommand(condition ? 'on':'off');
+            var level       = device.get('metrics:level');
+            var newLevel    = condition ? 'on':'off';
+            if (level !== newLevel) {
+                device.performCommand(newLevel);
+            }
         } else {
             self.error('Could not find device '+deviceId);
         }
