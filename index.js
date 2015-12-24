@@ -82,7 +82,7 @@ ConditionSwitch.prototype.bindDevices = function(checks,command) {
             //self.controller.devices[command](check.device, "change:metrics:change", self.callback);
         }
     });
-}
+};
 
 ConditionSwitch.prototype.initTimeouts = function() {
     var self = this;
@@ -154,16 +154,33 @@ ConditionSwitch.prototype.checkCondition = function() {
     var condition       = true;
     
     // Check presence
-    if (self.config.presenceMode.length > 0)
+    if (self.config.presenceMode.length > 0
         && self.config.presenceMode.indexOf(presence) === -1) {
         condition = false;
     }
     
     // Check time
-    _.each(self.config.time,function(time) {
-        var timeout = self.calculateTimeout(time);
-        if (typeof(timeout) !== 'undefined') {
-            timeouts.push(timeout);
-        }
-    });
+    if (condition === true
+        && self.config.time.length > 0) {
+        var timeCondition = false;
+        _.each(self.config.time,function(time) {
+            var timeFrom    = self.parseTime(time.timeFrom);
+            var timeTo      = self.parseTime(time.timeTo);
+            
+            // Check time
+            if (typeof(timeFrom) === 'undefined'
+                || typeof(timeTo) === 'undefined') {
+                return;
+            }
+            
+            // Check day of week if set
+            if (typeof(schedule.dayofweek) === 'object' 
+                && schedule.dayofweek.length > 0
+                && _.indexOf(schedule.dayofweek, dayNow.toString()) === -1) {
+                return;
+            }
+            
+        });
+        condition = timeCondition;
+    }
 };

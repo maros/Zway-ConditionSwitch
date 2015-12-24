@@ -157,7 +157,7 @@
                             "placeholder": "__time_placeholder__",
                             "type": "string",
                             "required": true
-                        }
+                        },
                         "dayofweek": {
                             "enum": [
                                 "0",
