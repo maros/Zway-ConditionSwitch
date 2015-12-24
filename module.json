@@ -184,7 +184,7 @@
                             "field": "enum",
                             "required": true
                         },
-                        "testValue": {
+                        "value": {
                             "default": "on",
                             "enum": [
                                 "off",
@@ -206,7 +206,7 @@
                             "field": "enum",
                             "required": true
                         },
-                        "testOperator": {
+                        "operator": {
                             "enum": [
                                 "=",
                                 "!=",
@@ -218,7 +218,7 @@
                             "required": true,
                             "type": "string"
                         },
-                        "testValue": {
+                        "value": {
                             "required": true,
                             "type": "number"
                         }
