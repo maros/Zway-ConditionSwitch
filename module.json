@@ -33,11 +33,17 @@
                     "fields": {
                         "timeFrom": {
                             "label": "__time_from_label__",
-                            "order": 1
+                            "order": 1,
+                            "maskString" : "99:99",
+                            "placeholder" : "__time_placeholder__",
+                            "type" : "time"
                         },
                         "timeTo": {
                             "label": "__time_to_label__",
-                            "order": 2
+                            "order": 2,
+                            "maskString" : "99:99",
+                            "placeholder" : "__time_placeholder__",
+                            "type" : "time"
                         },
                         "dayofweek": {
                             "label": "__dayofweek_label__",
