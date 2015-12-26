@@ -1,19 +1,49 @@
 # Zway-ConditionSwitch
 
-TODO
+Switches multiple binary switches based on various conditions such as time, 
+day of week, presence and sensor values. If all conditions match, the switch
+will be turned on, otherwise it will be turned off. If the negate config
+option is set this behaviour is inversed.
 
 # Configuration
 
-TODO
+## presenceMode
+
+Sets multiple presence mode to match.
+
+## time.timeFrom, time.timeTo, time.dayofweek
+
+Sets multiple time periods when the condition should be active. Optionally
+day of week can be set.
+
+## binary.device, multilevel.device
+
+Pick the devices that shall be used for condtion calculation.
+
+## mulitlevel.operator
+
+Test operator for multiLevel sensors/switches.
+
+## binary.value, mulilevel.value
+
+Value for the condition test. 
+
+## negate
+
+If negate is set, device will be turned on if no condition matches, otherwise
+only if all conditions match.
+
+## devices
+
+Switched devices
 
 # Events
 
-TODO
+No events are emitted
 
 # Virtual Devices
 
-This module creates a virtual binary switch that enables/disabled window
-control action.
+No virtual device is created
 
 # Installation
 
