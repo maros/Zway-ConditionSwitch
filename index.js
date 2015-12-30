@@ -98,7 +98,7 @@ ConditionSwitch.prototype.initTimeouts = function() {
             timeouts.push(timeout);
         }
     });
-    timeouts.sort();
+    timeouts.sort(function(a,b) { return a-b; });
     if (typeof(timeouts[0]) !== 'undefined') {
         self.timeout = setTimeout(self.callback,timeouts[0] * 1000);
     }
@@ -139,7 +139,7 @@ ConditionSwitch.prototype.calculateTimeout = function(time) {
         return;
     }
         
-    results.sort();
+    results.sort(function(a,b) { return a-b; });
     
     self.log('Timeout'+results[0]+'-'+results[1]);
     return (results[0].getTime() - dateNow.getTime());
