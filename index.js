@@ -13,7 +13,7 @@ function ConditionSwitch (id, controller) {
     // Call superconstructor first (AutomationModule)
     ConditionSwitch.super_.call(this, id, controller);
     
-    this.timeout = undefined;
+    this.cronName = undefined;
 }
 
 inherits(ConditionSwitch, BaseModule);
@@ -28,6 +28,7 @@ ConditionSwitch.prototype.init = function (config) {
     ConditionSwitch.super_.prototype.init.call(this, config);
 
     var self = this;
+    self.cronName = "ConditionSwitch.check."+self.id;
     
     setTimeout(_.bind(self.initCallback,self),12000);
 };
@@ -43,10 +44,25 @@ ConditionSwitch.prototype.initCallback = function() {
     ]);
     presence.on('change:metrics:mode',self.callback);
     
+    self.controller.on(self.cronName, self.callback);
+    
+    _.each(self.config.time,function(time) {
+        _.each(['timeFrom','timeTo'],function(timeString) {
+            var date = self.parseTime(time[timeString]);
+            var dayofweek = time.dayofweek.length === 0 ? null : time.dayofweek;
+            self.controller.emit("cron.addTask",self.cronName, {
+                minute:     date.getMinutes(),
+                hour:       date.getHours(),
+                weekDay:    dayofweek,
+                day:        null,
+                month:      null,
+            });
+        });
+    });
+    
     self.bindDevices(self.config.multilevel,'on');
     self.bindDevices(self.config.binary,'on');
     
-    self.initTimeouts();
     self.checkCondition();
 };
 
@@ -59,13 +75,12 @@ ConditionSwitch.prototype.stop = function () {
        ['probeType','=','Presence']
     ]);
     presence.off('change:metrics:mode',self.callback);
+    self.controller.off(self.cronName, self.callback);
     
     self.bindDevices(self.config.multilevel,'off');
     self.bindDevices(self.config.binary,'off');
     
-    if (typeof(self.timeout) !== 'undefined') {
-        clearTimeout(self.timeout);
-    }
+    self.controller.emit("cron.removeTask", self.cronName);
 };
 
 // ----------------------------------------------------------------------------
@@ -82,67 +97,6 @@ ConditionSwitch.prototype.bindDevices = function(checks,command) {
             //self.controller.devices[command](check.device, "change:metrics:change", self.callback);
         }
     });
-};
-
-ConditionSwitch.prototype.initTimeouts = function() {
-    var self = this;
-    
-    if (typeof(self.timeout) !== 'undefined') {
-        clearTimeout(self.timeout);
-    }
-    
-    var timeouts = [];
-    _.each(self.config.time,function(time) {
-        var timeout = self.calculateTimeout(time);
-        if (typeof(timeout) !== 'undefined') {
-            timeouts.push(timeout);
-        }
-    });
-    timeouts.sort(function(a,b) { return a-b; });
-    if (typeof(timeouts[0]) !== 'undefined') {
-        self.timeout = setTimeout(self.callback,timeouts[0] * 1000);
-    }
-};
-
-ConditionSwitch.prototype.calculateTimeout = function(time) {
-    var self = this;
-    
-    var dateNow     = new Date();
-    var dayofweek   = time.dayofweek;
-    var timeFrom    = time.timeFrom;
-    var timeTo      = time.timeTo;
-    var results     = [];
-    
-    if (typeof(timeFrom) === 'undefined'
-        && typeof(timeTo) === 'undefined') {
-        return;
-    }
-    
-    _.each([timeFrom,timeTo],function(timeString) {
-        var dateCalc = self.parseTime(timeString);
-        while (dateCalc < dateNow 
-            || (
-                typeof(dayofweek) === 'object'
-                && dayofweek.length > 0 
-                && _.indexOf(dayofweek, dateCalc.getDay().toString()) === -1
-            )) {
-            var hour = dateCalc.getHours();
-            var minute = dateCalc.getMinutes();
-            dateCalc.setHours(hour + 24);
-            dateCalc.setHours(hour,minute);
-        }
-        results.push(dateCalc);
-        self.log('Next:'+timeString+'-'+dateCalc);
-    });
-    
-    if (results.length === 0) {
-        return;
-    }
-        
-    results.sort(function(a,b) { return a-b; });
-    
-    self.log('Timeout'+results[0]+'-'+results[1]);
-    return (results[0].getTime() - dateNow.getTime());
 };
 
 ConditionSwitch.prototype.checkCondition = function() {
