@@ -51,12 +51,12 @@ Install the BaseModule from https://github.com/maros/Zway-BaseModule first
 
 ```shell
 cd /opt/z-way-server/automation/modules
-git clone https://github.com/maros/Zway-WindowControl.git WindowControl --branch latest
+git clone https://github.com/maros/Zway-ConditionSwitch.git ConditionSwitch --branch latest
 ```
 
 To update or install a specific version
 ```shell
-cd /opt/z-way-server/automation/modules/WindowControl
+cd /opt/z-way-server/automation/modules/ConditionSwitch
 git fetch --tags
 # For latest released version
 git checkout tags/latest
