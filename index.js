@@ -93,7 +93,7 @@ ConditionSwitch.prototype.bindDevices = function(checks,command) {
     _.each(checks,function(check) {
         var device = self.controller.devices.get(check.device);
         if (typeof(device) !== 'undefined') {
-            self.controller.devices[command](check.device, "change:metrics:level", self.callback);
+            self.controller.devices[command](check.device, "modify:metrics:level", self.callback);
             //self.controller.devices[command](check.device, "change:metrics:change", self.callback);
         }
     });
