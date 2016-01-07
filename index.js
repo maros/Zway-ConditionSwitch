@@ -136,7 +136,7 @@ ConditionSwitch.prototype.checkCondition = function() {
             // Check day of week if set
             if (typeof(time.dayofweek) === 'object' 
                 && time.dayofweek.length > 0
-                && _.indexOf(time.dayofweek, dayNow.toString()) === -1) {
+                && _.indexOf(time.dayofweek, dayofweekNow.toString()) === -1) {
                 self.log('Day of week does not match');
                 return;
             }
