@@ -36,7 +36,7 @@ ConditionSwitch.prototype.init = function (config) {
             defaults: {
                 metrics: {
                     level: 'off',
-                    title: self.langFile.title, 
+                    title: self.langFile.m_title, 
                     icon: 'motion'
                 },
             },

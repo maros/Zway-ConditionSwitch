@@ -9,7 +9,7 @@
    "dayofweek_5" : "Freitag",
    "dayofweek_6" : "Samstag",
    "dayofweek_label" : "Wochentag",
-   "description" : "Schaltet einen oder mehrere binäre Schalter wenn alle einstellten Beingungen, wie Zeitraum, Anwesenheitsmodus, Wochentag und Sensorwerte erfüllt sind. Treffen die Bedingungen nicht mehr zu wird das geschaltene Gerät ausgeschaltet.",
+   "m_descr" : "Schaltet einen oder mehrere binäre Schalter wenn alle einstellten Beingungen, wie Zeitraum, Anwesenheitsmodus, Wochentag und Sensorwerte erfüllt sind. Treffen die Bedingungen nicht mehr zu wird das geschaltene Gerät ausgeschaltet.",
    "devices_label" : "Geschaltene Geräte",
    "multilevel_helper" : "Bedingungen basierend auf analogen Schaltern und Sensoren",
    "multilevel_label" : "Analoge Bedingungen",
@@ -25,5 +25,5 @@
    "time_from_label" : "Von",
    "time_placeholder" : "HH:MM",
    "time_to_label" : "Bis",
-   "title" : "Bedingungs Schalter"
+   "m_title" : "Bedingungs Schalter"
 }

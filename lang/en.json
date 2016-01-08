@@ -9,7 +9,7 @@
    "dayofweek_5" : "Friday",
    "dayofweek_6" : "Saturday",
    "dayofweek_label" : "Day of week",
-   "description" : "Switches a binary switch based on various conditions such as time, day of week, presence and sensors",
+   "m_descr" : "Switches a binary switch based on various conditions such as time, day of week, presence and sensors",
    "devices_label" : "Switched devices",
    "multilevel_helper" : "Conditions based on multilevel sensors",
    "multilevel_label" : "Multilevel conditions",
@@ -25,5 +25,5 @@
    "time_from_label" : "From",
    "time_placeholder" : "HH:MM",
    "time_to_label" : "To",
-   "title" : "Condition Switch"
+   "m_title" : "Condition Switch"
 }
