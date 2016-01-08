@@ -5,6 +5,9 @@ day of week, presence and sensor values. If all conditions match, the switch
 will be turned on, otherwise it will be turned off. If the negate config
 option is set this behaviour is inversed.
 
+If no switched devices are configured, this module will create a basic
+binary sensor that indicates the state of the condition.
+
 # Configuration
 
 ## presenceMode
@@ -35,7 +38,8 @@ only if all conditions match.
 
 ## devices
 
-Switched devices
+Switched devices. If no devices are specified, this module will create
+a binary sensor to act as the switched device.
 
 # Events
 

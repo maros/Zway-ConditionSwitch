@@ -30,6 +30,28 @@ ConditionSwitch.prototype.init = function (config) {
     var self = this;
     self.cronName = "ConditionSwitch.check."+self.id;
     
+    if (self.config.devices.length === 0) {
+        self.vDev = self.controller.devices.create({
+            deviceId: "ConditionSwitch_" + self.id,
+            defaults: {
+                metrics: {
+                    level: 'off',
+                    title: self.langFile.title, 
+                    icon: 'motion'
+                },
+            },
+            overlay: {
+                deviceType: 'sensorBinary'
+            },
+            handler: function(command, args) {
+                if (command === 'update') {
+                    self.checkCondition();
+                }
+            },
+            moduleId: self.id
+        });
+    }
+    
     setTimeout(_.bind(self.initCallback,self),12000);
 };
 
@@ -70,6 +92,12 @@ ConditionSwitch.prototype.stop = function () {
     var self = this;
     
     ConditionSwitch.super_.prototype.stop.call(this);
+    
+    if (self.config.devices.length === 0
+        && self.vDev) {
+        self.controller.devices.remove(self.vDev.id);
+        self.vDev = undefined;
+    }
     
     var presence = self.getDevice([
        ['probeType','=','Presence']
@@ -206,18 +234,24 @@ ConditionSwitch.prototype.checkCondition = function() {
         self.log('Condition is '+condition);
     }
     
-    _.each(self.config.devices,function(deviceId) {
-        var device = self.controller.devices.get(deviceId);
-        if (typeof(device) !== 'undefined') {
-            var level       = device.get('metrics:level');
-            var newLevel    = condition ? 'on':'off';
-            if (level !== newLevel) {
-                device.performCommand(newLevel);
+    var devices = self.config.devices;
+    if (devices.length === 0) {
+        self.vDev.set('metrics:level',condition ? 'on':'off');
+    } else {
+        _.each(self.config.devices,function(deviceId) {
+            var device = self.controller.devices.get(deviceId);
+            if (typeof(device) !== 'undefined') {
+                var level       = device.get('metrics:level');
+                var newLevel    = condition ? 'on':'off';
+                if (level !== newLevel) {
+                    device.performCommand(newLevel);
+                }
+            } else {
+                self.error('Could not find device '+deviceId);
             }
-        } else {
-            self.error('Could not find device '+deviceId);
-        }
-    });
+        });
+    }
+    
 };
 
 ConditionSwitch.prototype.compare = function (val1, op, val2) {
