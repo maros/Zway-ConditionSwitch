@@ -9,8 +9,9 @@
    "dayofweek_5" : "Freitag",
    "dayofweek_6" : "Samstag",
    "dayofweek_label" : "Wochentag",
-   "m_descr" : "Schaltet einen oder mehrere binäre Schalter wenn alle einstellten Beingungen, wie Zeitraum, Anwesenheitsmodus, Wochentag und Sensorwerte erfüllt sind. Treffen die Bedingungen nicht mehr zu wird das geschaltene Gerät ausgeschaltet.",
    "devices_label" : "Geschaltene Geräte",
+   "m_descr" : "Schaltet einen oder mehrere binäre Schalter wenn alle einstellten Beingungen, wie Zeitraum, Anwesenheitsmodus, Wochentag und Sensorwerte erfüllt sind. Treffen die Bedingungen nicht mehr zu wird das geschaltene Gerät ausgeschaltet.\nSiehe https://github.com/maros/Zway-ConditionSwitch//blob/master/README.md für detailliertere Dokumentation.",
+   "m_title" : "Bedingungs Schalter",
    "multilevel_helper" : "Bedingungen basierend auf analogen Schaltern und Sensoren",
    "multilevel_label" : "Analoge Bedingungen",
    "negate_helper" : "Wenn diese Option gesetzt ist, dann wird das geschaltene Gerät eingeschalten wenn die Bedingung nicht zutrifft und ausgeschaltet wenn sie zutrifft.",
@@ -20,10 +21,9 @@
    "presence_mode_label" : "Anwesenheits Bedingungen",
    "presence_mode_night" : "Anwesend Nacht",
    "presence_mode_vacation" : "Urlaub",
+   "time_from_label" : "Von",
    "time_helper" : "Zeiträume in denen die Bedingung zutrifft",
    "time_label" : "Zeit Bedingungen",
-   "time_from_label" : "Von",
    "time_placeholder" : "HH:MM",
-   "time_to_label" : "Bis",
-   "m_title" : "Bedingungs Schalter"
+   "time_to_label" : "Bis"
 }
