@@ -10,7 +10,7 @@
    "dayofweek_6" : "Saturday",
    "dayofweek_label" : "Day of week",
    "devices_label" : "Switched devices",
-   "m_descr" : "Switches a binary switch based on various conditions such as time, day of week, presence and sensors<br>Check  <a href=\"https://github.com/maros/Zway-ConditionSwitch/blob/master/README.md\">github.com/maros/Zway-ConditionSwitch</a> for detailed documentation.",
+   "m_descr" : "Switches a binary switch based on various conditions such as time, day of week, presence and sensors<br>Check <a href=https://github.com/maros/Zway-ConditionSwitch/blob/master/README.md>github.com/maros/Zway-ConditionSwitch</a> for detailed documentation.",
    "m_title" : "Condition Switch",
    "multilevel_helper" : "Conditions based on multilevel sensors",
    "multilevel_label" : "Multilevel conditions",
