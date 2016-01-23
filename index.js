@@ -227,31 +227,44 @@ ConditionSwitch.prototype.checkCondition = function() {
         }
     });
     
-    if (self.config.negate) {
-        condition = ! condition;
-        self.log('Negating. Condition is '+condition);
-    } else {
-        self.log('Condition is '+condition);
-    }
-    
-    var devices = self.config.devices;
-    if (devices.length === 0) {
+    var switches = self.config.switches;
+    if (switches.length === 0) {
         self.vDev.set('metrics:level',condition ? 'on':'off');
     } else {
-        _.each(self.config.devices,function(deviceId) {
-            var device = self.controller.devices.get(deviceId);
-            if (typeof(device) !== 'undefined') {
-                var level       = device.get('metrics:level');
-                var newLevel    = condition ? 'on':'off';
-                if (level !== newLevel) {
-                    device.performCommand(newLevel);
+        _.each(self.config.switches,function(singleSwitch) {
+            var switchType  = singleSwitch.type;
+            var curSwitch   = singleSwitch[switchType];
+            var vDev;
+            //vDev = curSwitch.startScene ? self.getDev(curSwitch.startScene) : self.getDev(curSwitch.device);
+            
+            // toggle button switches
+            if (switchType === 'toggleButton'){
+                vDev = self.controller.devices.get(condition ? curSwitch.startScene : curSwitch.endScene);
+                if (!!vDev) {
+                    vDev.performCommand('on');
                 }
+            // switch binary/multilevel switches
             } else {
-                self.error('Could not find device '+deviceId);
+                vDev = self.controller.devices.get(curSwitch.device);
+                if (!!vDev) {
+                    switch(curSwitch.status) {
+                        case 'level':
+                            var offLevel = (level === 0) ? 100:0;
+                            vDev.performCommand("exact", { level: condition ? curSwitch.level:offLevel });
+                            break;
+                        case 'on':
+                            vDev.performCommand(condition ? 'on':'off');
+                            break;
+                        case 'off':
+                            vDev.performCommand(condition ? 'off':'on');
+                            break;
+                    }
+                } else {
+                    self.error('Could not find device '+curSwitch.device);
+                }
             }
         });
     }
-    
 };
 
 ConditionSwitch.prototype.compare = function (val1, op, val2) {
@@ -268,6 +281,6 @@ ConditionSwitch.prototype.compare = function (val1, op, val2) {
     } else if (op === "<=") {
         return val1 <= val2;
     }
-        
+    
     return null; // error!!  
 };
