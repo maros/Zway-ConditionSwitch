@@ -30,26 +30,28 @@ ConditionSwitch.prototype.init = function (config) {
     var self = this;
     self.cronName = "ConditionSwitch.check."+self.id;
     
-    if (self.config.devices.length === 0) {
-        self.vDev = self.controller.devices.create({
-            deviceId: "ConditionSwitch_" + self.id,
-            defaults: {
-                metrics: {
-                    level: 'off',
-                    title: self.langFile.m_title, 
-                    icon: 'motion'
-                },
+    self.vDev = self.controller.devices.create({
+        deviceId: "ConditionSwitch_" + self.id,
+        defaults: {
+            metrics: {
+                level: 'off',
+                title: self.langFile.m_title, 
+                icon: 'motion'
             },
-            overlay: {
-                deviceType: 'sensorBinary'
-            },
-            handler: function(command, args) {
-                if (command === 'update') {
-                    self.checkCondition();
-                }
-            },
-            moduleId: self.id
-        });
+        },
+        overlay: {
+            deviceType: 'sensorBinary'
+        },
+        handler: function(command, args) {
+            if (command === 'update') {
+                self.checkCondition();
+            }
+        },
+        moduleId: self.id
+    });
+    
+    if (self.config.devices.length > 0) {
+        self.vDev.set({'visibility': false});
     }
     
     setTimeout(_.bind(self.initCallback,self),12000);
@@ -93,8 +95,7 @@ ConditionSwitch.prototype.stop = function () {
     
     ConditionSwitch.super_.prototype.stop.call(this);
     
-    if (self.config.devices.length === 0
-        && self.vDev) {
+    if (self.vDev) {
         self.controller.devices.remove(self.vDev.id);
         self.vDev = undefined;
     }
@@ -228,9 +229,12 @@ ConditionSwitch.prototype.checkCondition = function() {
     });
     
     var switches = self.config.switches;
-    if (switches.length === 0) {
+    var oldLevel = self.vDev.get('metrics:level') || 'off';
+    var newLevel = condition ? 'on':'off';
+    
+    if (oldLevel !== newLevel) {
         self.vDev.set('metrics:level',condition ? 'on':'off');
-    } else {
+        
         _.each(self.config.switches,function(singleSwitch) {
             var switchType  = singleSwitch.type;
             var curSwitch   = singleSwitch[switchType];
