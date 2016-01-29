@@ -78,92 +78,103 @@
             "order" : 1,
             "type" : "checkbox"
          },
-         "switches": {
-             "order" : 5,
-             "label": "__switches_label__",
-             "helper": "__switches_helper__",
-             "items": {
-                 "fields": {
-                     "type": {
-                         "type": "select",
-                         "removeDefaultNone": false,
-                         "noneLabel": "__type_choose__",
-                         "label":"__label_type__",
-                         "optionLabels": ["__type_binary__","__type_multilevel__","__type_toggle__"]
+         "switches" : {
+            "helper" : "__switches_helper__",
+            "items" : {
+               "fields" : {
+                  "switchBinary" : {
+                     "dependencies" : {
+                        "type" : "switchBinary"
                      },
-                     "switchBinary":{
-                         "dependencies": {
-                             "type" : "switchBinary"
-                         },
-                         "fields": {
-                             "device": {
-                                 "type": "select",
-                                 "removeDefaultNone": false,
-                                 "noneLabel": "__device_choose__",
-                                 "datasource": "namespaces",
-                                 "field": "optionLabels",
-                                 "optionLabels": "namespaces:devices_switchBinary:deviceName"
-                             },
-                             "status": {
-                                 "type": "radio",
-                                 "optionLabels": ["__on__","__off__"]
-                             }
-                         }
-                     },
-                     "switchMultilevel":{
-                         "dependencies": {
-                             "type" : "switchMultilevel"
-                         },
-                         "fields": {
-                             "device": {
-                                 "type": "select",
-                                 "removeDefaultNone": false,
-                                 "noneLabel": "__device_choose__",
-                                 "datasource": "namespaces",
-                                 "field": "optionLabels",
-                                 "optionLabels": "namespaces:devices_switchMultilevel:deviceName,namespaces:devices_switchRGBW:deviceName"
-                             },
-                             "status": {
-                                 "type": "radio",
-                                 "optionLabels": ["__on__","__off__","__level__"]
-                             },
-                             "level": {
-                                 "field": "enum",
-                                 "dependencies": {
-                                     "status": "lvl"
-                                 }
-                             }
-                         }
-                     },
-                     "toggleButton":{
-                         "dependencies": {
-                             "type" : "toggleButton"
-                         },
-                         "fields": {
-                             "startScene": {
-                                 "type": "select",
-                                 "removeDefaultNone": false,
-                                 "noneLabel": "__device_choose__",
-                                 "label":"__start_scene_label__",
-                                 "helper":"__start_scene_helper__",
-                                 "datasource": "namespaces",
-                                 "field": "optionLabels",
-                                 "optionLabels": "namespaces:devices_toggleButton:deviceName"
-                             },
-                             "endScene": {
-                                 "type": "select",
-                                 "removeDefaultNone": false,
-                                 "noneLabel": "__device_choose__",
-                                 "label":"__end_scene_label__",
-                                 "helper":"__end_scene_helper__",
-                                 "datasource": "namespaces",
-                                 "field": "optionLabels",
-                                 "optionLabels": "namespaces:devices_toggleButton:deviceName"
-                             }
-                         }
+                     "fields" : {
+                        "device" : {
+                           "datasource" : "namespaces",
+                           "field" : "optionLabels",
+                           "noneLabel" : "__device_choose__",
+                           "optionLabels" : "namespaces:devices_switchBinary:deviceName",
+                           "removeDefaultNone" : false,
+                           "type" : "select"
+                        },
+                        "status" : {
+                           "optionLabels" : [
+                              "__on__",
+                              "__off__"
+                           ],
+                           "type" : "radio"
+                        }
                      }
-                 }
-             }
+                  },
+                  "switchMultilevel" : {
+                     "dependencies" : {
+                        "type" : "switchMultilevel"
+                     },
+                     "fields" : {
+                        "device" : {
+                           "datasource" : "namespaces",
+                           "field" : "optionLabels",
+                           "noneLabel" : "__device_choose__",
+                           "optionLabels" : "namespaces:devices_switchMultilevel:deviceName,namespaces:devices_switchRGBW:deviceName",
+                           "removeDefaultNone" : false,
+                           "type" : "select"
+                        },
+                        "level" : {
+                           "dependencies" : {
+                              "status" : "lvl"
+                           },
+                           "field" : "enum"
+                        },
+                        "status" : {
+                           "optionLabels" : [
+                              "__on__",
+                              "__off__",
+                              "__level__"
+                           ],
+                           "type" : "radio"
+                        }
+                     }
+                  },
+                  "toggleButton" : {
+                     "dependencies" : {
+                        "type" : "toggleButton"
+                     },
+                     "fields" : {
+                        "endScene" : {
+                           "datasource" : "namespaces",
+                           "field" : "optionLabels",
+                           "helper" : "__end_scene_helper__",
+                           "label" : "__end_scene_label__",
+                           "noneLabel" : "__device_choose__",
+                           "optionLabels" : "namespaces:devices_toggleButton:deviceName",
+                           "removeDefaultNone" : false,
+                           "type" : "select"
+                        },
+                        "startScene" : {
+                           "datasource" : "namespaces",
+                           "field" : "optionLabels",
+                           "helper" : "__start_scene_helper__",
+                           "label" : "__start_scene_label__",
+                           "noneLabel" : "__device_choose__",
+                           "optionLabels" : "namespaces:devices_toggleButton:deviceName",
+                           "removeDefaultNone" : false,
+                           "type" : "select"
+                        }
+                     }
+                  },
+                  "type" : {
+                     "label" : "__label_type__",
+                     "noneLabel" : "__type_choose__",
+                     "optionLabels" : [
+                        "__type_binary__",
+                        "__type_multilevel__",
+                        "__type_toggle__"
+                     ],
+                     "removeDefaultNone" : false,
+                     "type" : "select"
+                  }
+               }
+            },
+            "label" : "__switches_label__",
+            "order" : 5
          },
          "time" : {
             "helper" : "__time_helper__",
@@ -271,6 +282,93 @@
             ],
             "type" : "array"
          },
+         "switches" : {
+            "items" : {
+               "properties" : {
+                  "switchBinary" : {
+                     "dependencies" : "type",
+                     "properties" : {
+                        "device" : {
+                           "datasource" : "namespaces",
+                           "enum" : "namespaces:devices_switchBinary:deviceId",
+                           "field" : "enum",
+                           "required" : true,
+                           "type" : "string"
+                        },
+                        "status" : {
+                           "enum" : [
+                              "on",
+                              "off"
+                           ],
+                           "required" : true,
+                           "type" : "integer"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "switchMultilevel" : {
+                     "dependencies" : "type",
+                     "properties" : {
+                        "device" : {
+                           "datasource" : "namespaces",
+                           "enum" : "namespaces:devices_switchMultilevel:deviceId,namespaces:devices_switchRGBW:deviceId",
+                           "field" : "enum",
+                           "required" : true,
+                           "type" : "string"
+                        },
+                        "level" : {
+                           "dependencies" : "status",
+                           "maximum" : "99",
+                           "minimum" : "0",
+                           "required" : true,
+                           "type" : "integer"
+                        },
+                        "status" : {
+                           "enum" : [
+                              "on",
+                              "off",
+                              "level"
+                           ],
+                           "required" : true,
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "toggleButton" : {
+                     "dependencies" : "type",
+                     "properties" : {
+                        "endScene" : {
+                           "datasource" : "namespaces",
+                           "enum" : "namespaces:devices_toggleButton:deviceId",
+                           "field" : "enum",
+                           "type" : "string"
+                        },
+                        "startScene" : {
+                           "datasource" : "namespaces",
+                           "enum" : "namespaces:devices_toggleButton:deviceId",
+                           "field" : "enum",
+                           "required" : true,
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "type" : {
+                     "enum" : [
+                        "switchBinary",
+                        "switchMultilevel",
+                        "switchRGBW",
+                        "toggleButton"
+                     ],
+                     "required" : true,
+                     "type" : "string"
+                  }
+               },
+               "type" : "object"
+            },
+            "type" : "array"
+         },
          "time" : {
             "items" : {
                "properties" : {
@@ -302,86 +400,11 @@
                "type" : "object"
             },
             "type" : "array"
-         },
-         "switches": {
-             "type":"array",
-             "items":{
-                 "type":"object",
-                 "properties": {
-                     "type":{
-                         "type":"string",
-                         "enum":["switchBinary","switchMultilevel", "switchRGBW", "toggleButton"],
-                         "required":true
-                     },
-                     "switchBinary":{
-                         "type":"object",
-                         "dependencies": "type",
-                         "properties":{
-                             "device": {
-                                 "type":"string",
-                                 "field": "enum",
-                                 "datasource": "namespaces",
-                                 "enum": "namespaces:devices_switchBinary:deviceId",
-                                 "required": true
-                             },
-                             "status": {
-                                 "type": "integer",
-                                 "required": true,
-                                 "enum": ["on","off"]
-                             }
-                         }
-                     },
-                     "switchMultilevel":{
-                         "type":"object",
-                         "dependencies": "type",
-                         "properties":{
-                             "device": {
-                                 "type":"string",
-                                 "field": "enum",
-                                 "datasource": "namespaces",
-                                 "enum": "namespaces:devices_switchMultilevel:deviceId,namespaces:devices_switchRGBW:deviceId",
-                                 "required": true
-                             },
-                             "status": {
-                                 "type": "string",
-                                 "required": true,
-                                 "enum": ["on","off","level"]
-                             },
-                             "level": {
-                                 "type": "integer",
-                                 "minimum":"0",
-                                 "maximum":"99",
-                                 "required": true,
-                                 "dependencies": "status"
-                             }
-                         }
-                     },
-                     "toggleButton":{
-                         "type":"object",
-                         "dependencies": "type",
-                         "properties":{
-                             "startScene": {
-                                 "type":"string",
-                                 "field": "enum",
-                                 "datasource": "namespaces",
-                                 "enum": "namespaces:devices_toggleButton:deviceId",
-                                 "required": true
-                             },
-                             "endScene": {
-                                 "type":"string",
-                                 "field": "enum",
-                                 "datasource": "namespaces",
-                                 "enum": "namespaces:devices_toggleButton:deviceId"
-                             }
-                         }
-                     }
-                 }
-             }
          }
       },
       "required" : true,
       "type" : "object"
    },
    "singleton" : false,
-   "version" : 1.02
+   "version" : 1.03
 }
