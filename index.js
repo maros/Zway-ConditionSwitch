@@ -50,7 +50,7 @@ ConditionSwitch.prototype.init = function (config) {
         moduleId: self.id
     });
     
-    if (self.config.devices.length > 0) {
+    if (self.config.switches.length > 0) {
         self.vDev.set({'visibility': false});
     }
     
