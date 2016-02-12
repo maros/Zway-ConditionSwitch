@@ -153,14 +153,6 @@ ConditionSwitch.prototype.checkCondition = function() {
             if (timeCondition === true) {
                 return;
             }
-            var timeFrom    = self.parseTime(time.timeFrom);
-            var timeTo      = self.parseTime(time.timeTo);
-            
-            // Check time
-            if (typeof(timeFrom) === 'undefined'
-                || typeof(timeTo) === 'undefined') {
-                return;
-            }
             
             // Check day of week if set
             if (typeof(time.dayofweek) === 'object' 
@@ -170,23 +162,7 @@ ConditionSwitch.prototype.checkCondition = function() {
                 return;
             }
             
-            if (timeTo < timeFrom) {
-                if (timeTo.getDate() === dateNow.getDate()) {
-                    var fromHour   = timeFrom.getHours();
-                    var fromMinute = timeFrom.getMinutes();
-                    timeFrom.setHours(fromHour - 24);
-                    // Now fix time jump on DST
-                    timeFrom.setHours(fromHour,fromMinute);
-                } else {
-                    var toHour     = timeTo.getHours();
-                    var toMinute   = timeTo.getMinutes();
-                    timeTo.setHours(toHour + 24);
-                    // Now fix time jump on DST
-                    timeTo.setHours(toHour,toMinute);
-                }
-            }
-            
-            if (timeFrom > dateNow || dateNow > timeTo) {
+            if (! self.checkPeriod(time.timeFrom,time.timeTo)) {
                 self.log('Time does not match');
                 return;
             }
