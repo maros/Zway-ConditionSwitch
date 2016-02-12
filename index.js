@@ -194,7 +194,7 @@ ConditionSwitch.prototype.checkCondition = function() {
             var device = self.controller.devices.get(check.device);
             if (typeof(device) !== 'undefined') {
                 var level = device.get('metrics:level');
-                if (self.compare(check.value,check.operator,level)) {
+                if (self.compare(level,check.operator,check.value)) {
                     self.log('Multilevel does not match');
                     condition = false;
                 }
