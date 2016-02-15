@@ -84,6 +84,7 @@
             "items" : {
                "fields" : {
                   "switchBinary" : {
+                     "order": 2,
                      "dependencies" : {
                         "type" : "switchBinary"
                      },
@@ -94,18 +95,21 @@
                            "noneLabel" : "__device_choose__",
                            "optionLabels" : "namespaces:devices_switchBinary:deviceName",
                            "removeDefaultNone" : false,
-                           "type" : "select"
+                           "type" : "select",
+                           "order": 1
                         },
                         "status" : {
                            "optionLabels" : [
                               "__on__",
                               "__off__"
                            ],
-                           "type" : "radio"
+                           "type" : "radio",
+                           "order": 2
                         }
                      }
                   },
                   "switchMultilevel" : {
+                     "order": 3,
                      "dependencies" : {
                         "type" : "switchMultilevel"
                      },
@@ -116,13 +120,14 @@
                            "noneLabel" : "__device_choose__",
                            "optionLabels" : "namespaces:devices_switchMultilevel:deviceName,namespaces:devices_switchRGBW:deviceName",
                            "removeDefaultNone" : false,
-                           "type" : "select"
+                           "type" : "select",
+                           "order": 1
                         },
                         "level" : {
                            "dependencies" : {
-                              "status" : "lvl"
+                              "status" : "level"
                            },
-                           "field" : "enum"
+                           "order": 3
                         },
                         "status" : {
                            "optionLabels" : [
@@ -130,11 +135,13 @@
                               "__off__",
                               "__level__"
                            ],
+                           "order": 2
                            "type" : "radio"
                         }
                      }
                   },
                   "toggleButton" : {
+                     "order": 4,
                      "dependencies" : {
                         "type" : "toggleButton"
                      },
@@ -147,7 +154,8 @@
                            "noneLabel" : "__device_choose__",
                            "optionLabels" : "namespaces:devices_toggleButton:deviceName",
                            "removeDefaultNone" : false,
-                           "type" : "select"
+                           "type" : "select",
+                           "order": 2
                         },
                         "startScene" : {
                            "datasource" : "namespaces",
@@ -157,11 +165,13 @@
                            "noneLabel" : "__device_choose__",
                            "optionLabels" : "namespaces:devices_toggleButton:deviceName",
                            "removeDefaultNone" : false,
-                           "type" : "select"
+                           "type" : "select",
+                           "order": 1
                         }
                      }
                   },
                   "type" : {
+                     "order": 1,
                      "label" : "__label_type__",
                      "noneLabel" : "__type_choose__",
                      "optionLabels" : [
@@ -359,7 +369,6 @@
                      "enum" : [
                         "switchBinary",
                         "switchMultilevel",
-                        "switchRGBW",
                         "toggleButton"
                      ],
                      "required" : true,
@@ -407,5 +416,5 @@
       "type" : "object"
    },
    "singleton" : false,
-   "version" : 1.04
+   "version" : 1.03
 }
