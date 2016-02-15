@@ -1,3 +1,11 @@
+1.04 2016 Feb 15, Mon
+    * Update translation
+    * Invert comparison
+    * Move compare to BaseModule
+    * Move period checks to BaseModule
+    * Fix wrong variable name
+    * Declare Cron dependency
+
 1.03 2016 Jan 29, Fri
     * Switch only on real change
     * Multiple switched devices
