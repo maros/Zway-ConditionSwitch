@@ -13,6 +13,7 @@ function ConditionSwitch (id, controller) {
     // Call superconstructor first (AutomationModule)
     ConditionSwitch.super_.call(this, id, controller);
     
+    this.bindings = [];
     this.cronName = undefined;
 }
 
@@ -60,32 +61,19 @@ ConditionSwitch.prototype.init = function (config) {
 ConditionSwitch.prototype.initCallback = function() {
     var self = this;
     
-    self.tests = {};
     self.callback   = _.bind(self.checkCondition,self);
     
+    // Bind presence change
     var presence = self.getDevice([
         ['probeType','=','Presence']
     ]);
     presence.on('change:metrics:mode',self.callback);
     
+    // Bind conditions
+    self.bindCondition(self.config.condition,true);
+    
+    // Bind cron
     self.controller.on(self.cronName, self.callback);
-    
-    _.each(self.config.time,function(time) {
-        _.each(['timeFrom','timeTo'],function(timeString) {
-            var date = self.parseTime(time[timeString]);
-            var dayofweek = time.dayofweek.length === 0 ? null : time.dayofweek;
-            self.controller.emit("cron.addTask",self.cronName, {
-                minute:     date.getMinutes(),
-                hour:       date.getHours(),
-                weekDay:    dayofweek,
-                day:        null,
-                month:      null,
-            });
-        });
-    });
-    
-    self.bindDevices(self.config.multilevel,'on');
-    self.bindDevices(self.config.binary,'on');
     
     self.checkCondition();
 };
@@ -100,15 +88,17 @@ ConditionSwitch.prototype.stop = function () {
         self.vDev = undefined;
     }
     
+    // Unbind presence
     var presence = self.getDevice([
        ['probeType','=','Presence']
     ]);
     presence.off('change:metrics:mode',self.callback);
+    
+    // Bind conditions
+    self.bindCondition(self.config.condition,false);
+    
+    // Unbind cron
     self.controller.off(self.cronName, self.callback);
-    
-    self.bindDevices(self.config.multilevel,'off');
-    self.bindDevices(self.config.binary,'off');
-    
     self.controller.emit("cron.removeTask", self.cronName);
 };
 
@@ -116,16 +106,63 @@ ConditionSwitch.prototype.stop = function () {
 // --- Module methods
 // ----------------------------------------------------------------------------
 
-ConditionSwitch.prototype.bindDevices = function(checks,command) {
+ConditionSwitch.prototype.bindCondition = function(condition,mode) {
     var self = this;
     
-    _.each(checks,function(check) {
-        var device = self.controller.devices.get(check.device);
-        if (typeof(device) !== 'undefined') {
-            self.controller.devices[command](check.device, "modify:metrics:level", self.callback);
-            //self.controller.devices[command](check.device, "change:metrics:change", self.callback);
+    self.log('BIND');
+    console.logJS(condition);
+    
+    switch(condition.type) {
+        case 'binary':
+            self.bindDevice(condition.binaryDevice,mode);
+            break;
+        case 'multilevel':
+            self.bindDevice(condition.multilevelDevice,mode);
+            break;
+        case 'time':
+            if (mode) {
+                _.each(condition.time,function(time) {
+                    _.each(['timeFrom','timeTo'],function(timeString) {
+                        var date = self.parseTime(time[timeString]);
+                        var dayofweek = time.dayofweek.length === 0 ? null : condition.dayofweek;
+                        self.controller.emit("cron.addTask",self.cronName, {
+                            minute:     date.getMinutes(),
+                            hour:       date.getHours(),
+                            weekDay:    dayofweek,
+                            day:        null,
+                            month:      null,
+                        });
+                    });
+                });
+            }
+            break;
+        case 'condition':
+            _.each(condition.conditionElements,function(element) {
+                self.bindCondition(element,mode);
+            });
+            break;
+    }
+};
+
+ConditionSwitch.prototype.bindDevice = function(deviceId,mode) {
+    var self = this;
+    
+    var device  = self.controller.devices.get(deviceId);
+    var index   = self.bindings.indexOf(deviceId);
+    
+    if (! _.isNull(device)) {
+        if (mode === true 
+            && index === -1) {
+            self.bindings.push(deviceId);
+            device.on("modify:metrics:level", self.callback);
+        } else if (mode === false) {
+            if (index !== -1)
+            self.bindings.splice(index,1);
+            device.off("modify:metrics:level", self.callback);
         }
-    });
+    } else {
+        self.error('Could not find device '+deviceId);
+    }
 };
 
 ConditionSwitch.prototype.checkCondition = function() {
@@ -133,80 +170,10 @@ ConditionSwitch.prototype.checkCondition = function() {
     
     self.log('Calculating switch condition');
     
-    var presence        = self.getPresenceMode();
-    var dateNow         = new Date();
-    var dayofweekNow    = dateNow.getDay().toString();
-    var condition       = true;
-    
-    // Check presence
-    if (self.config.presenceMode.length > 0
-        && self.config.presenceMode.indexOf(presence) === -1) {
-        self.log('Presence does not match');
-        condition = false;
-    }
-    
-    // Check time
-    if (condition === true
-        && self.config.time.length > 0) {
-        var timeCondition = false;
-        _.each(self.config.time,function(time) {
-            if (timeCondition === true) {
-                return;
-            }
-            
-            // Check day of week if set
-            if (typeof(time.dayofweek) === 'object' 
-                && time.dayofweek.length > 0
-                && _.indexOf(time.dayofweek, dayofweekNow.toString()) === -1) {
-                self.log('Day of week does not match');
-                return;
-            }
-            
-            if (! self.checkPeriod(time.timeFrom,time.timeTo)) {
-                self.log('Time does not match');
-                return;
-            }
-            
-            timeCondition = true;
-        });
-        condition = timeCondition;
-    }
-    
-    // Check binary
-    _.each(self.config.binary,function(check) {
-        if (condition) {
-            var device = self.controller.devices.get(check.device);
-            if (typeof(device) !== 'undefined') {
-                var level = device.get('metrics:level');
-                if (check.value !== level) {
-                    self.log('Binary does not match');
-                    condition = false;
-                }
-            } else {
-                self.error('Could not find device '+check.device);
-            }
-        }
-    });
-    
-    // Check multilevel
-    _.each(self.config.multilevel,function(check) {
-        if (condition) {
-            var device = self.controller.devices.get(check.device);
-            if (typeof(device) !== 'undefined') {
-                var level = device.get('metrics:level');
-                if (self.compare(level,check.operator,check.value)) {
-                    self.log('Multilevel does not match');
-                    condition = false;
-                }
-            } else {
-                self.error('Could not find device '+check.device);
-            }
-        }
-    });
-    
-    var switches = self.config.switches;
-    var oldLevel = self.vDev.get('metrics:level') || 'off';
-    var newLevel = condition ? 'on':'off';
+    var condition   = self.evaluateCondition(self.config.condition);
+    var switches    = self.config.switches;
+    var oldLevel    = self.vDev.get('metrics:level') || 'off';
+    var newLevel    = condition ? 'on':'off';
     
     if (oldLevel !== newLevel) {
         self.vDev.set('metrics:level',condition ? 'on':'off');
@@ -244,5 +211,76 @@ ConditionSwitch.prototype.checkCondition = function() {
                 }
             }
         });
+    }
+};
+
+ConditionSwitch.prototype.evaluateCondition = function(condition) {
+    var self = this;
+    
+    self.log('EVAL');
+    console.logJS(condition);
+    
+    var device, level;
+    switch(condition.type) {
+        case 'binary':
+            device = self.controller.devices.get(condition.binaryDevice);
+            if (!_.isNull(device)) {
+                level = device.get('metrics:level');
+                return (condition.binaryValue !== level);
+            }
+            return false;
+            //break;
+        case 'multilevel':
+            device = self.controller.devices.get(condition.multilevelDevice);
+            if (!_.isNull(device)) {
+                level = device.get('metrics:level');
+                return self.compare(level,check.multilevelOperator,check.multilevelValue);
+            }
+            return false;
+            //break;
+        case 'presenceMode':
+            var presence = self.getPresenceMode();
+            return (condition.presenceMode.indexOf(presence) === -1);
+            //break;
+        case 'time':
+            var dateNow         = new Date();
+            var dayofweekNow    = dateNow.getDay().toString();
+            var timeCondition   = false;
+            
+            _.each(condition.time,function(time) {
+                if (timeCondition === true) {
+                    return;
+                }
+                
+                // Check day of week if set
+                if (typeof(time.dayofweek) === 'object' 
+                    && time.dayofweek.length > 0
+                    && _.indexOf(time.dayofweek, dayofweekNow.toString()) === -1) {
+                    return;
+                }
+                
+                if (! self.checkPeriod(time.timeFrom,time.timeTo)) {
+                    return;
+                }
+                
+                timeCondition = true;
+            });
+            
+            return timeCondition;
+        case 'condition':
+            for (var i = 0; i < condition.conditionElements.length; i++) {
+                var result = self.evaluateCondition(condition.conditionElements[i]);
+                if (condition.conditionJunction === 'or' && result === true) {
+                    return true;
+                } else if (condition.conditionJunction === 'and' && result === false) {
+                    return false;
+                }
+            }
+            if (condition.conditionJunction === 'or') {
+                return false;
+            } else if (condition.conditionJunction === 'and') {
+                return true;
+            }
+            break;
     }
 };
