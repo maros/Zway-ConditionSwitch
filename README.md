@@ -26,38 +26,37 @@ Comparison device/value for binary sensors and switches.
 
 ## conditions.multilevelDevice, conditions.multilevelOperator, conditions.multilevelValue
 
-Comparison device/value for binary sensors and switches.
+Comparison device/operator/value for multilevel sensors and switches.
 
-## presenceMode
+## conditions.presenceMode
 
-Sets multiple presence mode to match.
+Check for presence mode.
 
-## time.timeFrom, time.timeTo, time.dayofweek
+## conditions.time.dayofweek, conditions.time.timeFrom, conditions.time.timeTo
 
-Sets multiple time periods when the condition should be active. Optionally
-day of week can be set.
+Multiple time periods when the condition should be apply. Time in HH:MM format
 
-## binary.device, multilevel.device
+## conditions.conditionJunction, condition.conditionElements
 
-Pick the devices that shall be used for condtion calculation.
-
-## mulitlevel.operator
-
-Test operator for multiLevel sensors/switches.
-
-## binary.value, mulilevel.value
-
-Value for the condition test. 
-
-## negate
-
-If negate is set, device will be turned on if no condition matches, otherwise
-only if all conditions match.
+For complex conditions, multiple conditions may be combined using boolean
+junctions. 
 
 ## switches
 
-Switched devices. If no devices are specified, this module will create
+Multiple switched devices. If no devices are specified, this module will create
 a binary sensor to act as the switched device.
+
+## switches.switchBinary.device, switches.switchBinary.status
+
+Switched binary devices.
+
+## switches.switchMultilevel, switches.switchMultilevel.status, switches.switchMultilevel.level
+
+Switched multilevel devices.
+
+## switches.toggleButton.endScene, switches.toggleButton.startScene
+
+Scenes that should be activated if the condition toggles on or off.
 
 # Events
 
