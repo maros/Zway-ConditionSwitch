@@ -1,14 +1,32 @@
 # Zway-ConditionSwitch
 
-Switches multiple binary switches based on various conditions such as time, 
-day of week, presence and sensor values. If all conditions match, the switch
-will be turned on, otherwise it will be turned off. If the negate config
-option is set this behaviour is inversed.
+Switches multiple switches and scenes based on various conditions such as 
+time, day of week, presence and sensor values. Multiple conditions can be
+combined using boolean junctions AND and OR.
 
-If no switched devices are configured, this module will create a basic
-binary sensor that indicates the state of the condition.
+If the conditions apply multiple switches and scenes can be either turned 
+on or off. If no switched devices are configured, this module will create a 
+basic binary sensor that indicates the state of the condition.
 
 # Configuration
+
+## conditions
+
+Conditions that need to apply in order for the selected switches to be
+swiched on or off.
+
+## conditions.type
+
+Type of the condition. Can be a binary, multilevel, presence or time 
+conditions. Furthermore conditions may be nested to create complex rules.
+
+## conditions.binaryDevice, conditions.binaryValue
+
+Comparison device/value for binary sensors and switches.
+
+## conditions.multilevelDevice, conditions.multilevelOperator, conditions.multilevelValue
+
+Comparison device/value for binary sensors and switches.
 
 ## presenceMode
 
@@ -36,7 +54,7 @@ Value for the condition test.
 If negate is set, device will be turned on if no condition matches, otherwise
 only if all conditions match.
 
-## devices
+## switches
 
 Switched devices. If no devices are specified, this module will create
 a binary sensor to act as the switched device.
