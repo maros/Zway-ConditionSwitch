@@ -88,6 +88,7 @@
                         },
                         "order": 7,
                         "label": "__presence_mode_label__",
+                        "helper": "__presence_mode_helper__",
                         "optionLabels": [
                             "__presence_mode_home__",
                             "__presence_mode_away__",
@@ -101,7 +102,7 @@
                             "type": "time"
                         },
                         "order": 8,
-                        "helper": "__time_label__",
+                        "helper": "__time_helper__",
                         "items": {
                             "fields": {
                                 "dayofweek": {
@@ -160,6 +161,8 @@
         "fields": {
             "condition": {
                 "label": "__condition_label__",
+                "label": "__condition_helper__",
+
                 "$ref": "#/definitions/conditions"
             },
             "switches": {
