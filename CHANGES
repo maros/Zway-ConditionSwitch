@@ -1,3 +1,9 @@
+1.05 2016 Feb 20, Sat
+    * Update translation
+    * Update documentation
+    * Nested conditions with and/or junctions
+    * Fix module.json
+
 1.04 2016 Feb 15, Mon
     * Update translation
     * Invert comparison
