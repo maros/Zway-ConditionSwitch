@@ -228,13 +228,13 @@ ConditionSwitch.prototype.evaluateCondition = function(condition) {
             device = self.controller.devices.get(condition.multilevelDevice);
             if (!_.isNull(device)) {
                 level = device.get('metrics:level');
-                return self.compare(level,check.multilevelOperator,check.multilevelValue);
+                return self.compare(level,condition.multilevelOperator,condition.multilevelValue);
             }
             return false;
             //break;
         case 'presenceMode':
             var presence = self.getPresenceMode();
-            return (condition.presenceMode.indexOf(presence) === -1);
+            return (condition.presenceMode.indexOf(presence) !== -1);
             //break;
         case 'time':
             var dateNow         = new Date();
