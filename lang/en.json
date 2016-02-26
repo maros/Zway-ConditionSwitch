@@ -21,7 +21,7 @@
    "junction_or" : "Or",
    "label_type" : "Switch Type",
    "level" : "Level",
-   "m_descr" : "Switches mutiple switches and scenes based on various conditions such as time, day of week, presence and sensors. Multiple conditions can be <br>Check <a href=https://github.com/maros/Zway-ConditionSwitch/blob/master/README.md>github.com/maros/Zway-ConditionSwitch</a> for detailed documentation.",
+   "m_descr" : "Switches mutiple switches and scenes based on various conditions such as time, day of week, presence and sensors. Multiple conditions can be combined using boolean operators. <br>Check <a href=https://github.com/maros/Zway-ConditionSwitch/blob/master/README.md>github.com/maros/Zway-ConditionSwitch</a> for detailed documentation.",
    "m_title" : "Condition Switch",
    "multilevel_label" : "Multilevel condition",
    "off" : "Off",
