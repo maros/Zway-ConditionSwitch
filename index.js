@@ -109,9 +109,6 @@ ConditionSwitch.prototype.stop = function () {
 ConditionSwitch.prototype.bindCondition = function(condition,mode) {
     var self = this;
     
-    self.log('BIND');
-    console.logJS(condition);
-    
     switch(condition.type) {
         case 'binary':
             self.bindDevice(condition.binaryDevice,mode);
@@ -216,9 +213,6 @@ ConditionSwitch.prototype.checkCondition = function() {
 
 ConditionSwitch.prototype.evaluateCondition = function(condition) {
     var self = this;
-    
-    self.log('EVAL');
-    console.logJS(condition);
     
     var device, level;
     switch(condition.type) {
