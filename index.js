@@ -66,7 +66,7 @@ ConditionSwitch.prototype.initCallback = function() {
     
     // Bind presence change
     var presence = self.getDevice([
-        ['probeType','=','Presence']
+        ['probeType','=','presence']
     ]);
     presence.on('change:metrics:mode',self.callback);
     
@@ -91,7 +91,7 @@ ConditionSwitch.prototype.stop = function () {
     
     // Unbind presence
     var presence = self.getDevice([
-       ['probeType','=','Presence']
+       ['probeType','=','presence']
     ]);
     presence.off('change:metrics:mode',self.callback);
     
