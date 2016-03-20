@@ -41,6 +41,7 @@ ConditionSwitch.prototype.init = function (config) {
             },
         },
         overlay: {
+            probeType: 'general_purpose',
             deviceType: 'sensorBinary'
         },
         handler: function(command, args) {
