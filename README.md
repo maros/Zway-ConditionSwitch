@@ -58,9 +58,15 @@ Switched multilevel devices.
 
 Scenes that should be activated if the condition toggles on or off.
 
+## switches.event.endEvent, switches.event.startEvent
+
+Events that should be emitted if the condition toggles on or off.
+
 # Events
 
-No events are emitted
+Custom events can be emitted when the condition toggles on or off.
+[EventWatcher](https://github.com/maros/Zway-EventWatcher) can be
+used to catch and act upon these events.
 
 # Virtual Devices
 
