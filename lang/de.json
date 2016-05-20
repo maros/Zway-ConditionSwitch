@@ -45,6 +45,7 @@
    "time_to_label" : "Bis",
    "type_binary" : "Binärer Schalter",
    "type_choose" : "--- Geräte Typ auswählen ---",
+   "type_event" : "Ereigniss",
    "type_multilevel" : "Multilevel Schalter",
    "type_toggle" : "Szene/Umschalter",
    "value_label" : "Wert"
