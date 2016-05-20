@@ -257,13 +257,32 @@
                      },
                      "order" : 4
                   },
+                  "event" : {
+                     "dependencies" : {
+                        "type" : "event"
+                     },
+                     "fields" : {
+                        "endEvent" : {
+                           "helper" : "__end_event_helper__",
+                           "label" : "__end_event_label__",
+                           "order" : 2
+                        },
+                        "startEvent" : {
+                           "helper" : "__start_event_helper__",
+                           "label" : "__start_event_label__",
+                           "order" : 1
+                        }
+                     },
+                     "order" : 4
+                  },
                   "type" : {
                      "label" : "__label_type__",
                      "noneLabel" : "__type_choose__",
                      "optionLabels" : [
                         "__type_binary__",
                         "__type_multilevel__",
-                        "__type_toggle__"
+                        "__type_toggle__",
+                        "__type_event__"
                      ],
                      "order" : 1,
                      "removeDefaultNone" : false,
@@ -477,11 +496,24 @@
                      },
                      "type" : "object"
                   },
+                  "event" : {
+                     "dependencies" : "type",
+                     "properties" : {
+                        "endEvent" : {
+                           "type" : "string"
+                        },
+                        "startEvent" : {
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  },
                   "type" : {
                      "enum" : [
                         "switchBinary",
                         "switchMultilevel",
-                        "toggleButton"
+                        "toggleButton",
+                        "event"
                      ],
                      "required" : true,
                      "type" : "string"

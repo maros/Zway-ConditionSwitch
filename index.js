@@ -179,18 +179,22 @@ ConditionSwitch.prototype.checkCondition = function() {
         _.each(self.config.switches,function(singleSwitch) {
             var switchType  = singleSwitch.type;
             var curSwitch   = singleSwitch[switchType];
-            var vDev;
-            //vDev = curSwitch.startScene ? self.getDev(curSwitch.startScene) : self.getDev(curSwitch.device);
             
             // toggle button switches
             if (switchType === 'toggleButton'){
-                vDev = self.controller.devices.get(condition ? curSwitch.startScene : curSwitch.endScene);
+                var vDev = self.controller.devices.get(condition ? curSwitch.startScene : curSwitch.endScene);
                 if (!!vDev) {
                     vDev.performCommand('on');
                 }
+            // event
+            } else if (switchType === 'event'){
+                var event = condition ? curSwitch.startEvent : curSwitch.endEvent;
+                if (!!event) {
+                    self.controller.emit(event);
+                }
             // switch binary/multilevel switches
             } else {
-                vDev = self.controller.devices.get(curSwitch.device);
+                var vDev = self.controller.devices.get(curSwitch.device);
                 if (!!vDev) {
                     switch(curSwitch.status) {
                         case 'level':
