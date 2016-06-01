@@ -3,8 +3,8 @@
    "category" : "automation_basic",
    "defaults" : {
       "description" : "__m_descr__",
-      "title" : "__m_title__",
-      "switches" : []
+      "switches" : [],
+      "title" : "__m_title__"
    },
    "dependencies" : [
       "Cron",
@@ -129,18 +129,18 @@
                            "type" : "checkbox"
                         },
                         "timeFrom" : {
+                           "dateFormat" : "HH:mm",
                            "label" : "__time_from_label__",
                            "maskString" : "99:99",
                            "placeholder" : "__time_placeholder__",
-                           "type" : "time",
-                           "dateFormat": "HH:mm"
+                           "type" : "time"
                         },
                         "timeTo" : {
+                           "dateFormat" : "HH:mm",
                            "label" : "__time_to_label__",
                            "maskString" : "99:99",
                            "placeholder" : "__time_placeholder__",
-                           "type" : "time",
-                           "dateFormat": "HH:mm"
+                           "type" : "time"
                         }
                      }
                   },
@@ -170,6 +170,24 @@
             "helper" : "__switches_helper__",
             "items" : {
                "fields" : {
+                  "event" : {
+                     "dependencies" : {
+                        "type" : "event"
+                     },
+                     "fields" : {
+                        "endEvent" : {
+                           "helper" : "__end_event_helper__",
+                           "label" : "__end_event_label__",
+                           "order" : 2
+                        },
+                        "startEvent" : {
+                           "helper" : "__start_event_helper__",
+                           "label" : "__start_event_label__",
+                           "order" : 1
+                        }
+                     },
+                     "order" : 4
+                  },
                   "switchBinary" : {
                      "dependencies" : {
                         "type" : "switchBinary"
@@ -253,24 +271,6 @@
                            "order" : 1,
                            "removeDefaultNone" : false,
                            "type" : "select"
-                        }
-                     },
-                     "order" : 4
-                  },
-                  "event" : {
-                     "dependencies" : {
-                        "type" : "event"
-                     },
-                     "fields" : {
-                        "endEvent" : {
-                           "helper" : "__end_event_helper__",
-                           "label" : "__end_event_label__",
-                           "order" : 2
-                        },
-                        "startEvent" : {
-                           "helper" : "__start_event_helper__",
-                           "label" : "__start_event_label__",
-                           "order" : 1
                         }
                      },
                      "order" : 4
@@ -390,14 +390,14 @@
                            "type" : "array"
                         },
                         "timeFrom" : {
+                           "format" : "time",
                            "required" : true,
-                           "type" : "string",
-                           "format": "time"
+                           "type" : "string"
                         },
                         "timeTo" : {
+                           "format" : "time",
                            "required" : true,
-                           "type" : "string",
-                           "format": "time"
+                           "type" : "string"
                         }
                      },
                      "type" : "object"
@@ -427,6 +427,18 @@
          "switches" : {
             "items" : {
                "properties" : {
+                  "event" : {
+                     "dependencies" : "type",
+                     "properties" : {
+                        "endEvent" : {
+                           "type" : "string"
+                        },
+                        "startEvent" : {
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  },
                   "switchBinary" : {
                      "dependencies" : "type",
                      "properties" : {
@@ -496,18 +508,6 @@
                      },
                      "type" : "object"
                   },
-                  "event" : {
-                     "dependencies" : "type",
-                     "properties" : {
-                        "endEvent" : {
-                           "type" : "string"
-                        },
-                        "startEvent" : {
-                           "type" : "string"
-                        }
-                     },
-                     "type" : "object"
-                  },
                   "type" : {
                      "enum" : [
                         "switchBinary",
@@ -528,5 +528,5 @@
       "type" : "object"
    },
    "singleton" : false,
-   "version" : 1.06
+   "version" : "1.08"
 }
