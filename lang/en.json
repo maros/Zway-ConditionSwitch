@@ -1,7 +1,6 @@
 {
    "binary_label" : "Binary condition",
    "condition_elements_label" : "Nested conditions",
-   "condition_helper" : "Switches are operated based on these conditions. To create complex conditions select 'Nested conditions'",
    "condition_junction_helper" : "If nested conditions are joined with 'And' all conditions must apply, otherwise only one condition needs to be true for the whole block to evaluate to true.",
    "condition_junction_label" : "Junction",
    "condition_label" : "Conditions",
@@ -23,7 +22,7 @@
    "junction_or" : "Or",
    "label_type" : "Switch Type",
    "level" : "Level",
-   "m_descr" : "Switches multiple switches and scenes based on various conditions such as time, day of week, presence and sensors. Multiple conditions can be combined and nested using boolean operators. <br>Check <a href=https://github.com/maros/Zway-ConditionSwitch/blob/master/README.md>github.com/maros/Zway-ConditionSwitch</a> for detailed documentation.",
+   "m_descr" : "Switches multiple switches and scenes based on various conditions such as time, day of week, presence and sensors. Conditions work in both directions and turn the controlled devices on and off. Multiple conditions can be combined and nested using boolean operators. <br>Check <a href=https://github.com/maros/Zway-ConditionSwitch/blob/master/README.md>github.com/maros/Zway-ConditionSwitch</a> for detailed documentation.",
    "m_title" : "Condition Switch",
    "multilevel_label" : "Multilevel condition",
    "off" : "Off",
@@ -50,6 +49,7 @@
    "type_binary" : "Binary Switch",
    "type_choose" : "--- Choose a type ---",
    "type_event" : "Event",
+   "type_helper" : "Select the type of the condition. Use 'nested conditions' to create complex rules.",
    "type_multilevel" : "Multilevel/RGB Switch",
    "type_toggle" : "Scene/Toggle Switch",
    "value_label" : "Value"

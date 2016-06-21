@@ -1,7 +1,6 @@
 {
    "binary_label" : "Binäre Bedingung",
    "condition_elements_label" : "Verschachtelte Bedingungen",
-   "condition_helper" : "Schalter werden abhängig von diesen Bedingungen geschalten Wählen Sie 'Verschachtelte Bedingungen' für komplexe Szenarien.",
    "condition_junction_helper" : "Wenn verschachtelte Bedingungen mit 'UND' verknüpft sind müssen alle Bedingungen erfüllt sein damit der Block als Ganzes wahr ist, ansonsten reicht eine einzige Bedingung.",
    "condition_junction_label" : "Verknüfung",
    "condition_label" : "Bedingungen",
@@ -50,6 +49,7 @@
    "type_binary" : "Binärer Schalter",
    "type_choose" : "--- Geräte Typ auswählen ---",
    "type_event" : "Ereigniss",
+   "type_helper" : "Art der Bedingung. Wählen Sie 'Verschachtelte Bedingungen' für komplexe Szenarien.",
    "type_multilevel" : "Multilevel Schalter",
    "type_toggle" : "Szene/Umschalter",
    "value_label" : "Wert"
