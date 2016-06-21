@@ -2,11 +2,14 @@
 
 Switches multiple switches and scenes based on various conditions such as 
 time, day of week, presence and sensor values. Multiple conditions can be
-combined using boolean junctions AND and OR.
+combined using boolean junctions AND and OR. Conditions work in both 
+directions and turn the controlled devices/scenes on and off.
 
 If the conditions apply multiple switches and scenes can be either turned 
-on or off. If no switched devices are configured, this module will create a 
-basic binary sensor that indicates the state of the condition.
+on or off. Once the conditions do not apply anymore the opposite action
+(off or on) will be performed. If no switched devices are configured, this 
+module will create a basic binary sensor that indicates the state of the 
+condition.
 
 # Configuration
 
