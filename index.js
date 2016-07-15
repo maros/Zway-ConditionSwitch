@@ -122,14 +122,26 @@ ConditionSwitch.prototype.bindCondition = function(condition,mode) {
                 _.each(condition.time,function(time) {
                     _.each(['timeFrom','timeTo'],function(timeString) {
                         var date = self.parseTime(time[timeString]);
-                        var dayofweek = time.dayofweek.length === 0 ? null : condition.dayofweek;
-                        self.controller.emit("cron.addTask",self.cronName, {
-                            minute:     date.getMinutes(),
-                            hour:       date.getHours(),
-                            weekDay:    dayofweek,
-                            day:        null,
-                            month:      null,
-                        });
+                        if (time.dayofweek.length === 0
+                            || time.dayofweek.length === 7) {
+                            self.controller.emit("cron.addTask",self.cronName, {
+                                minute:     date.getMinutes(),
+                                hour:       date.getHours(),
+                                weekDay:    null,
+                                day:        null,
+                                month:      null,
+                            });
+                        } else {
+                            _.each(time.dayofweek,function(dayofweek) {
+                                self.controller.emit("cron.addTask",self.cronName, {
+                                    minute:     date.getMinutes(),
+                                    hour:       date.getHours(),
+                                    weekDay:    parseInt(dayofweek,10),
+                                    day:        null,
+                                    month:      null,
+                                });
+                            });
+                        }
                     });
                 });
             }
