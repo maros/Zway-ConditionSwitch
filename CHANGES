@@ -1,3 +1,7 @@
+1.09 2016 Jul 20, Wed
+    * Translation, texts and documentation
+    * Fix day of week conditions
+
 1.08 2016 Jun 01, Wed
     * Add documentation
     * Emit events on condition switch

@@ -147,8 +147,8 @@
                   "order" : 8
                },
                "type" : {
-                  "noneLabel" : "__type_choose__",
                   "helper" : "__type_helper__",
+                  "noneLabel" : "__type_choose__",
                   "optionLabels" : [
                      "__binary_label__",
                      "__multilevel_label__",
@@ -529,5 +529,5 @@
       "type" : "object"
    },
    "singleton" : false,
-   "version" : "1.08"
+   "version" : "1.09"
 }
