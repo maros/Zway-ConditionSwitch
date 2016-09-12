@@ -238,7 +238,7 @@ ConditionSwitch.prototype.evaluateCondition = function(condition) {
             device = self.controller.devices.get(condition.binaryDevice);
             if (!_.isNull(device)) {
                 level = device.get('metrics:level');
-                return (condition.binaryValue !== level);
+                return (condition.binaryValue === level);
             }
             return false;
             //break;
