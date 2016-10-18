@@ -12,7 +12,7 @@ Description:
 function ConditionSwitch (id, controller) {
     // Call superconstructor first (AutomationModule)
     ConditionSwitch.super_.call(this, id, controller);
-    
+
     this.bindings = [];
     this.cronName = undefined;
 }
@@ -30,13 +30,13 @@ ConditionSwitch.prototype.init = function (config) {
 
     var self = this;
     self.cronName = "ConditionSwitch.check."+self.id;
-    
+
     self.vDev = self.controller.devices.create({
         deviceId: "ConditionSwitch_" + self.id,
         defaults: {
             metrics: {
                 level: 'off',
-                title: self.langFile.m_title, 
+                title: self.langFile.m_title,
                 icon: 'motion'
             },
         },
@@ -51,53 +51,53 @@ ConditionSwitch.prototype.init = function (config) {
         },
         moduleId: self.id
     });
-    
+
     if (self.config.switches.length > 0) {
         self.vDev.set({'visibility': false});
     }
-    
+
     setTimeout(_.bind(self.initCallback,self),12000);
 };
 
 ConditionSwitch.prototype.initCallback = function() {
     var self = this;
-    
+
     self.callback   = _.bind(self.checkCondition,self);
-    
+
     // Bind presence change
     var presence = self.getDevice([
         ['probeType','=','presence']
     ]);
     presence.on('change:metrics:mode',self.callback);
-    
+
     // Bind conditions
     self.bindCondition(self.config.condition,true);
-    
+
     // Bind cron
     self.controller.on(self.cronName, self.callback);
-    
+
     self.checkCondition();
 };
 
 ConditionSwitch.prototype.stop = function () {
     var self = this;
-    
+
     ConditionSwitch.super_.prototype.stop.call(this);
-    
+
     if (self.vDev) {
         self.controller.devices.remove(self.vDev.id);
         self.vDev = undefined;
     }
-    
+
     // Unbind presence
     var presence = self.getDevice([
        ['probeType','=','presence']
     ]);
     presence.off('change:metrics:mode',self.callback);
-    
+
     // Bind conditions
     self.bindCondition(self.config.condition,false);
-    
+
     // Unbind cron
     self.controller.off(self.cronName, self.callback);
     self.controller.emit("cron.removeTask", self.cronName);
@@ -109,7 +109,7 @@ ConditionSwitch.prototype.stop = function () {
 
 ConditionSwitch.prototype.bindCondition = function(condition,mode) {
     var self = this;
-    
+
     switch(condition.type) {
         case 'binary':
             self.bindDevice(condition.binaryDevice,mode);
@@ -156,12 +156,12 @@ ConditionSwitch.prototype.bindCondition = function(condition,mode) {
 
 ConditionSwitch.prototype.bindDevice = function(deviceId,mode) {
     var self = this;
-    
+
     var device  = self.controller.devices.get(deviceId);
     var index   = self.bindings.indexOf(deviceId);
-    
+
     if (! _.isNull(device)) {
-        if (mode === true 
+        if (mode === true
             && index === -1) {
             self.bindings.push(deviceId);
             device.on("modify:metrics:level", self.callback);
@@ -177,22 +177,22 @@ ConditionSwitch.prototype.bindDevice = function(deviceId,mode) {
 
 ConditionSwitch.prototype.checkCondition = function() {
     var self = this;
-    
+
     self.log('Calculating switch condition');
-    
+
     var condition   = self.evaluateCondition(self.config.condition);
     var switches    = self.config.switches;
     var oldLevel    = self.vDev.get('metrics:level') || 'off';
     var newLevel    = condition ? 'on':'off';
-    
+
     if (oldLevel !== newLevel) {
         self.vDev.set('metrics:level',condition ? 'on':'off');
-        
+
         _.each(self.config.switches,function(singleSwitch) {
             var switchType  = singleSwitch.type;
             var curSwitch   = singleSwitch[switchType];
             var vDev;
-            
+
             // toggle button switches
             if (switchType === 'toggleButton'){
                 vDev = self.controller.devices.get(condition ? curSwitch.startScene : curSwitch.endScene);
@@ -231,7 +231,7 @@ ConditionSwitch.prototype.checkCondition = function() {
 
 ConditionSwitch.prototype.evaluateCondition = function(condition) {
     var self = this;
-    
+
     var device, level;
     switch(condition.type) {
         case 'binary':
@@ -258,26 +258,26 @@ ConditionSwitch.prototype.evaluateCondition = function(condition) {
             var dateNow         = new Date();
             var dayofweekNow    = dateNow.getDay().toString();
             var timeCondition   = false;
-            
+
             _.each(condition.time,function(time) {
                 if (timeCondition === true) {
                     return;
                 }
-                
+
                 // Check day of week if set
-                if (typeof(time.dayofweek) === 'object' 
+                if (typeof(time.dayofweek) === 'object'
                     && time.dayofweek.length > 0
                     && _.indexOf(time.dayofweek, dayofweekNow.toString()) === -1) {
                     return;
                 }
-                
+
                 if (! self.checkPeriod(time.timeFrom,time.timeTo)) {
                     return;
                 }
-                
+
                 timeCondition = true;
             });
-            
+
             return timeCondition;
         case 'condition':
             for (var i = 0; i < condition.conditionElements.length; i++) {
