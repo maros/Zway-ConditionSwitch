@@ -22,7 +22,7 @@
    "junction_or" : "Oder",
    "label_type" : "Gerät Type",
    "level" : "Level",
-   "m_descr" : "Schaltet einen oder mehrere binäre Schalter wenn die einstellten Beingungen, wie Zeitraum, Anwesenheitsmodus, Wochentag und Sensorwerte erfüllt sind. Treffen die Bedingungen nicht mehr zu wird das geschaltene Gerät wieder ausgeschaltet. Mehere Bedingungen können mittels boolscher Operatore verschachtelt werden.<br>Siehe <a href=https://github.com/maros/Zway-ConditionSwitch/blob/master/README.md>github.com/maros/Zway-ConditionSwitch</a> für detailliertere Dokumentation.",
+   "m_descr" : "Schaltet einen oder mehrere binäre Schalter wenn die einstellten Beingungen, wie Zeitraum, Anwesenheitsmodus, Wochentag und Sensorwerte erfüllt sind. Treffen die Bedingungen nicht mehr zu wird das geschaltene Gerät wieder ausgeschaltet. Mehere Bedingungen können mittels boolscher Operatoren verknüpft und verschachtelt werden.<br>Siehe <a href=https://github.com/maros/Zway-ConditionSwitch/blob/master/README.md>github.com/maros/Zway-ConditionSwitch</a> für detailliertere Dokumentation.",
    "m_title" : "Bedingungs Schalter",
    "multilevel_label" : "Multilevel Bedingungen",
    "off" : "Aus",
