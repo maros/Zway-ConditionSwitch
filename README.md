@@ -1,14 +1,14 @@
 # Zway-ConditionSwitch
 
-Switches multiple switches and scenes based on various conditions such as 
+Switches multiple switches and scenes based on various conditions such as
 time, day of week, presence and sensor values. Multiple conditions can be
-combined using boolean junctions AND and OR. Conditions work in both 
+combined using boolean junctions AND and OR. Conditions work in both
 directions and turn the controlled devices/scenes on and off.
 
-If the conditions apply multiple switches and scenes can be either turned 
+If the conditions apply multiple switches and scenes can be either turned
 on or off. Once the conditions do not apply anymore the opposite action
-(off or on) will be performed. If no switched devices are configured, this 
-module will create a basic binary sensor that indicates the state of the 
+(off or on) will be performed. If no switched devices are configured, this
+module will create a basic binary sensor that indicates the state of the
 condition.
 
 # Configuration
@@ -20,7 +20,7 @@ swiched on or off.
 
 ## conditions.type
 
-Type of the condition. Can be a binary, multilevel, presence or time 
+Type of the condition. Can be a binary, multilevel, presence or time
 conditions. Furthermore conditions may be nested to create complex rules.
 
 ## conditions.binaryDevice, conditions.binaryValue
@@ -42,7 +42,7 @@ Multiple time periods when the condition should be apply. Time in HH:MM format
 ## conditions.conditionJunction, condition.conditionElements
 
 For complex conditions, multiple conditions may be combined using boolean
-junctions. 
+junctions.
 
 ## switches
 
@@ -80,11 +80,11 @@ No virtual device is created
 Install the BaseModule from https://github.com/maros/Zway-BaseModule first
 
 The prefered way of installing this module is via the "Zwave.me App Store"
-available in 2.2.0 and higher. For stable module releases no access token is 
-required. If you want to test the latest pre-releases use 'k1_beta' as 
+available in 2.2.0 and higher. For stable module releases no access token is
+required. If you want to test the latest pre-releases use 'k1_beta' as
 app store access token.
 
-For developers and users of older Zway versions installation via git is 
+For developers and users of older Zway versions installation via git is
 recommended.
 
 ```shell
@@ -108,7 +108,7 @@ git checkout -b master --track origin/master
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or any 
+the Free Software Foundation, either version 3 of the License, or any
 later version.
 
 Switch icon by Francesco Terzini from the Noun Project
