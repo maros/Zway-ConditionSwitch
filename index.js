@@ -121,12 +121,12 @@ ConditionSwitch.prototype.bindCondition = function(condition,mode) {
             if (mode) {
                 _.each(condition.time,function(time) {
                     _.each(['timeFrom','timeTo'],function(timeString) {
-                        var date = self.parseTime(time[timeString]);
+                        var parsedTime = self.parseTime(time[timeString]);
                         if (time.dayofweek.length === 0
                             || time.dayofweek.length === 7) {
                             self.controller.emit("cron.addTask",self.cronName, {
-                                minute:     date.getMinutes(),
-                                hour:       date.getHours(),
+                                minute:     parsedTime.getMinutes(),
+                                hour:       parsedTime.getHours(),
                                 weekDay:    null,
                                 day:        null,
                                 month:      null,
@@ -134,14 +134,37 @@ ConditionSwitch.prototype.bindCondition = function(condition,mode) {
                         } else {
                             _.each(time.dayofweek,function(dayofweek) {
                                 self.controller.emit("cron.addTask",self.cronName, {
-                                    minute:     date.getMinutes(),
-                                    hour:       date.getHours(),
+                                    minute:     parsedTime.getMinutes(),
+                                    hour:       parsedTime.getHours(),
                                     weekDay:    parseInt(dayofweek,10),
                                     day:        null,
                                     month:      null,
                                 });
                             });
                         }
+                    });
+                });
+            }
+            break;
+        case 'date':
+            if (mode) {
+                var dateNow = new Date();
+                _.each(condition.date,function(date) {
+                    _.each(['dateFrom','dateTo'],function(dateString) {
+                        var parsedDate = self.parseDate(date[dateString]);
+                        if (dateString === 'dateTo') {
+                            parsedDate.setHours(23,59,59,0);
+                        }
+                        if (parsedDate < dateNow) {
+                            parsedDate.setFullYear( parsedDate.getFullYear() + 1 );
+                        }
+                        self.controller.emit("cron.addTask",self.cronName, {
+                            minute:     0,
+                            hour:       0,
+                            weekDay:    null,
+                            day:        parsedDate.getDay,
+                            month:      parsedDate.getMonth
+                        });
                     });
                 });
             }
@@ -178,12 +201,12 @@ ConditionSwitch.prototype.bindDevice = function(deviceId,mode) {
 ConditionSwitch.prototype.checkCondition = function() {
     var self = this;
 
-    self.log('Calculating switch condition');
-
     var condition   = self.evaluateCondition(self.config.condition);
     var switches    = self.config.switches;
     var oldLevel    = self.vDev.get('metrics:level') || 'off';
     var newLevel    = condition ? 'on':'off';
+
+    self.log('Calculating switch condition: '+(condition ? 'true':'false'));
 
     if (oldLevel !== newLevel) {
         self.vDev.set('metrics:level',condition ? 'on':'off');
@@ -241,7 +264,6 @@ ConditionSwitch.prototype.evaluateCondition = function(condition) {
                 return (condition.binaryValue === level);
             }
             return false;
-            //break;
         case 'multilevel':
             device = self.controller.devices.get(condition.multilevelDevice);
             if (!_.isNull(device)) {
@@ -249,14 +271,27 @@ ConditionSwitch.prototype.evaluateCondition = function(condition) {
                 return self.compare(level,condition.multilevelOperator,condition.multilevelValue);
             }
             return false;
-            //break;
         case 'presenceMode':
             var presence = self.getPresenceMode();
             return (condition.presenceMode.indexOf(presence) !== -1);
-            //break;
-        case 'time':
+        case 'date':
             var dateNow         = new Date();
-            var dayofweekNow    = dateNow.getDay().toString();
+            var dateCondition   = false;
+            _.each(condition.date,function(date) {
+                if (dateCondition === true) {
+                    return;
+                }
+
+                if (! self.checkDatePeriod(date.dateFrom,date.dateTo)) {
+                    return;
+                }
+
+                dateCondition = true;
+            });
+            return dateCondition;
+        case 'time':
+            var timeNow         = new Date();
+            var dayofweekNow    = timeNow.getDay().toString();
             var timeCondition   = false;
 
             _.each(condition.time,function(time) {
@@ -295,4 +330,65 @@ ConditionSwitch.prototype.evaluateCondition = function(condition) {
             }
             break;
     }
+};
+
+ConditionSwitch.prototype.checkDatePeriod = function(dateFrom,dateTo) {
+    var self = this;
+
+    var dateNow = new Date();
+
+    // Check from/to time
+    if (typeof(dateFrom) === 'string') {
+        dateFrom = self.parseDate(dateFrom);
+    }
+    if (typeof(dateTo) === 'string') {
+        dateTo = self.parseDate(dateTo);
+    }
+
+    if (typeof(dateFrom) === 'undefined'
+        || typeof(dateTo) === 'undefined') {
+        return true;
+    }
+
+    // Period over new year
+    if (dateFrom >= dateTo) {
+        if (dateTo <= dateNow) {
+            dateTo.setFullYear(dateTo.getFullYear() + 1);
+        } else {
+            dateFrom.setFullYear(dateFrom.getFullYear() - 1);
+        }
+    }
+
+    dateFrom.setHours(0,0,0,0);
+    dateTo.setHours(23,59,59,0);
+
+    if (dateFrom > dateNow || dateNow > dateTo) {
+        return false;
+    }
+
+    return true;
+};
+
+ConditionSwitch.prototype.parseDate = function(dateString) {
+    if (typeof(dateString) === 'undefined') {
+        return;
+    }
+
+    var match = dateString.match(/^(\d{1,2}).(\d{1,2})$/);
+    if (!match) {
+        this.log('Could not parse date: '+dateString);
+        return;
+    }
+    var month       = parseInt(match[1],10);
+    var day         = parseInt(match[2],10);
+    var dateNow     = new Date();
+    return new Date(
+        dateNow.getFullYear(),
+        month - 1,
+        day,
+        0,
+        0,
+        0,
+        0
+    );
 };

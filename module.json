@@ -108,6 +108,31 @@
                   "order" : 7,
                   "type" : "checkbox"
                },
+               "date" : {
+                  "dependencies" : {
+                     "type" : "date"
+                  },
+                  "helper" : "__date_helper__",
+                  "items" : {
+                     "fields" : {
+                        "dateFrom" : {
+                           "dateFormat" : "MM.DD",
+                           "label" : "__from_label__",
+                           "maskString" : "99:99",
+                           "placeholder" : "__date_placeholder__",
+                           "type" : "date"
+                        },
+                        "dateTo" : {
+                           "dateFormat" : "MM.DD",
+                           "label" : "__to_label__",
+                           "maskString" : "99:99",
+                           "placeholder" : "__date_placeholder__",
+                           "type" : "date"
+                        }
+                     }
+                  },
+                  "order" : 9
+               },
                "time" : {
                   "dependencies" : {
                      "type" : "time"
@@ -130,14 +155,14 @@
                         },
                         "timeFrom" : {
                            "dateFormat" : "HH:mm",
-                           "label" : "__time_from_label__",
+                           "label" : "__from_label__",
                            "maskString" : "99:99",
                            "placeholder" : "__time_placeholder__",
                            "type" : "time"
                         },
                         "timeTo" : {
                            "dateFormat" : "HH:mm",
-                           "label" : "__time_to_label__",
+                           "label" : "__to_label__",
                            "maskString" : "99:99",
                            "placeholder" : "__time_placeholder__",
                            "type" : "time"
@@ -150,11 +175,12 @@
                   "helper" : "__type_helper__",
                   "noneLabel" : "__type_choose__",
                   "optionLabels" : [
+                     "__condition_elements_label__",
                      "__binary_label__",
                      "__multilevel_label__",
                      "__presence_mode_label__",
                      "__time_label__",
-                     "__condition_elements_label__"
+                     "__date_label__"
                   ],
                   "order" : 1,
                   "removeDefaultNone" : false
@@ -374,6 +400,27 @@
                   "minItems" : 1,
                   "type" : "array"
                },
+               "date" : {
+                  "dependencies" : "type",
+                  "type" : "object",
+                  "items" : {
+                     "properties" : {
+                        "dateFrom": {
+                           "format" : "date",
+                           "required" : true,
+                           "type" : "string"
+                        },
+                        "dateTo": {
+                           "format" : "date",
+                           "required" : true,
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "minItem" : 1,
+                  "type" : "array"
+               },
                "time" : {
                   "dependencies" : "type",
                   "items" : {
@@ -408,11 +455,12 @@
                },
                "type" : {
                   "enum" : [
+                     "condition",
                      "binary",
                      "multilevel",
                      "presenceMode",
                      "time",
-                     "condition"
+                     "date"
                   ],
                   "required" : true,
                   "type" : "string"
