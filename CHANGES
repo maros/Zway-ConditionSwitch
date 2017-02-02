@@ -1,3 +1,9 @@
+1.11 2017 Feb 02, Thu
+    * Update documentation
+    * Add support for thermostats
+    * Date conditions
+    * Distribution cleanup
+
 1.10 2016 Sep 12, Mon
     * Fix wrong comparison #3
 
