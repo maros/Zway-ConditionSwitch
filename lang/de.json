@@ -21,6 +21,7 @@
    "end_event_label" : "End Ereigniss",
    "end_scene_helper" : "Diese Szene ein Mal wird ausgeführt wenn nicht alle Bedingungen erfüllt sind",
    "end_scene_label" : "End Szene",
+   "from_label" : "Von",
    "junction_and" : "Und",
    "junction_or" : "Oder",
    "label_type" : "Gerät Type",
@@ -43,8 +44,8 @@
    "start_scene_label" : "Start Szene",
    "switches_helper" : "Liste der Geräte die durch dieses Modul geschalten werden sollen",
    "switches_label" : "Geschaltene Geräte",
+   "thermostat_helper" : "Wenn die Bedingung erfüllt ist wird das Thermostat auf den angegebenen Wert gesetzt. Sobald die Bedingung nicht mehr erfüllt ist wird das Thermostat auf den ursprünglichen Wert zurück gesetzt.",
    "time_dayofweek_label" : "Wochentag",
-   "from_label" : "Von",
    "time_helper" : "Legt mehrer Zeitperioden fest in denen die Bedingung erfüllt ist",
    "time_label" : "Zeit Bedingungen",
    "time_placeholder" : "HH:MM",
@@ -54,6 +55,7 @@
    "type_event" : "Ereigniss",
    "type_helper" : "Art der Bedingung. Wählen Sie 'Verschachtelte Bedingungen' für komplexe Szenarien.",
    "type_multilevel" : "Multilevel Schalter",
+   "type_thermostat" : "Thermostat",
    "type_toggle" : "Szene/Umschalter",
    "value_label" : "Wert"
 }

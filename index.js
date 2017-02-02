@@ -228,14 +228,25 @@ ConditionSwitch.prototype.checkCondition = function() {
                 if (!!event) {
                     self.controller.emit(event);
                 }
+            // thermostat
+            } else if (switchType === 'thermostat') {
+                vDev = self.controller.devices.get(curSwitch.device);
+                if (!!vDev) {
+                    var thermostatLevel = condition ? curSwitch.level : vDev.get('metrics:lastLevelContition');
+                    vDev.set('metrics:lastLevelContition',condition ? vDev.get('metrics:level') : undefined);
+                    vDev.performCommand("exact", { level: thermostatLevel });
+                } else {
+                    self.error('Could not find device '+curSwitch.device);
+                }
             // switch binary/multilevel switches
             } else {
                 vDev = self.controller.devices.get(curSwitch.device);
                 if (!!vDev) {
                     switch(curSwitch.status) {
                         case 'level':
-                            var offLevel = (level === 0) ? 100:0;
-                            vDev.performCommand("exact", { level: condition ? curSwitch.level:offLevel });
+                            var switchLevel = condition ? curSwitch.level : (curSwitch.level === 0 ? 255:0);
+                            vDev.set('metrics:level:original',condition ? vDev.get('metrics:level') : undefined);
+                            vDev.performCommand("exact", { level: switchLevel });
                             break;
                         case 'on':
                             vDev.performCommand(condition ? 'on':'off');

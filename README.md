@@ -20,7 +20,7 @@ swiched on or off.
 
 ## conditions.type
 
-Type of the condition. Can be a binary, multilevel, presence or time
+Type of the condition. Can be a binary, multilevel, presence, date or time
 conditions. Furthermore conditions may be nested to create complex rules.
 
 ## conditions.binaryDevice, conditions.binaryValue
@@ -38,6 +38,10 @@ Check for presence mode.
 ## conditions.time.dayofweek, conditions.time.timeFrom, conditions.time.timeTo
 
 Multiple time periods when the condition should be apply. Time in HH:MM format
+
+## conditions.date.dateFrom, conditions.date.dateTo
+
+Multiple date periods when the condition should be apply. Date in MM.DD format
 
 ## conditions.conditionJunction, condition.conditionElements
 

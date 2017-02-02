@@ -21,6 +21,7 @@
    "end_event_label" : "End event",
    "end_scene_helper" : "The following scene will be run once if the condition evaluates to false",
    "end_scene_label" : "Scene activated on stop",
+   "from_label" : "From",
    "junction_and" : "And",
    "junction_or" : "Or",
    "label_type" : "Switch Type",
@@ -43,8 +44,8 @@
    "start_scene_label" : "Scene activated on start",
    "switches_helper" : "List of switches that should be controlled by condition switch",
    "switches_label" : "Switch",
+   "thermostat_helper" : "The thermostat setpoint will be reset to its original value once the condition does not evaluate true anymore.",
    "time_dayofweek_label" : "Day of week",
-   "from_label" : "From",
    "time_helper" : "Sets multiple time periods when the condition is met",
    "time_label" : "Time conditions",
    "time_placeholder" : "HH:MM",
@@ -54,6 +55,7 @@
    "type_event" : "Event",
    "type_helper" : "Select the type of the condition. Use 'nested conditions' to create complex rules.",
    "type_multilevel" : "Multilevel/RGB Switch",
+   "type_thermostat" : "Thermostat",
    "type_toggle" : "Scene/Toggle Switch",
    "value_label" : "Value"
 }

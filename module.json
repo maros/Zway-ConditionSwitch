@@ -240,6 +240,27 @@
                      },
                      "order" : 2
                   },
+                  "thermostat" : {
+                     "dependencies" : {
+                        "type" : "thermostat"
+                     },
+                     "fields" : {
+                        "device" : {
+                           "datasource" : "namespaces",
+                           "field" : "optionLabels",
+                           "noneLabel" : "__device_choose__",
+                           "optionLabels" : "namespaces:devices_thermostat:deviceName",
+                           "order" : 1,
+                           "removeDefaultNone" : false,
+                           "type" : "select"
+                        },
+                        "level" : {
+                           "helper": "__thermostat_helper__",
+                           "order" : 2
+                        }
+                     },
+                     "order" : 3
+                  },
                   "switchMultilevel" : {
                      "dependencies" : {
                         "type" : "switchMultilevel"
@@ -308,6 +329,7 @@
                      "optionLabels" : [
                         "__type_binary__",
                         "__type_multilevel__",
+                        "__type_thermostat__",
                         "__type_toggle__",
                         "__type_event__"
                      ],
@@ -538,6 +560,25 @@
                      },
                      "type" : "object"
                   },
+                  "thermostat" : {
+                     "dependencies" : "type",
+                     "properties" : {
+                        "device" : {
+                           "datasource" : "namespaces",
+                           "enum" : "namespaces:devices_thermostat:deviceId",
+                           "field" : "enum",
+                           "required" : true,
+                           "type" : "string"
+                        },
+                        "level" : {
+                           "maximum" : "90",
+                           "minimum" : "10",
+                           "required" : true,
+                           "type" : "integer"
+                        }
+                     },
+                     "type" : "object"
+                  },
                   "toggleButton" : {
                      "dependencies" : "type",
                      "properties" : {
@@ -561,6 +602,7 @@
                      "enum" : [
                         "switchBinary",
                         "switchMultilevel",
+                        "thermostat",
                         "toggleButton",
                         "event"
                      ],
