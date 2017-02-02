@@ -55,11 +55,11 @@ a binary sensor to act as the switched device.
 
 ## switches.switchBinary.device, switches.switchBinary.status
 
-Switched binary devices.
+Switched binary devices and status (on,off)
 
 ## switches.switchMultilevel, switches.switchMultilevel.status, switches.switchMultilevel.level
 
-Switched multilevel devices.
+Switched multilevel devices and status (on,off,exact level)
 
 ## switches.toggleButton.endScene, switches.toggleButton.startScene
 
@@ -69,11 +69,16 @@ Scenes that should be activated if the condition toggles on or off.
 
 Events that should be emitted if the condition toggles on or off.
 
+## switches.thermostat.device, switches.thermostat.level
+
+Thermostat that should be changed if the condition toggles on or off. Sets the thermostat to its
+original level once the condition toggles back to off.
+
 # Events
 
 Custom events can be emitted when the condition toggles on or off.
-[EventWatcher](https://github.com/maros/Zway-EventWatcher) can be
-used to catch and act upon these events.
+[EventWatcher](https://github.com/maros/Zway-EventWatcher) can then be used to catch and act
+upon these events.
 
 # Virtual Devices
 
