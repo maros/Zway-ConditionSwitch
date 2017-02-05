@@ -1,9 +1,11 @@
 # Zway-ConditionSwitch
 
 Switches multiple switches and scenes based on various conditions such as
-time, day of week, presence and sensor values. Multiple conditions can be
-combined using boolean junctions AND and OR. Conditions work in both
-directions and turn the controlled devices/scenes on and off.
+time, day of week, date presence and sensor values. Multiple conditions
+can be combined using boolean junctions AND and OR (see nested condition).
+
+Conditions work in both directions and turn the controlled devices/scenes
+on and off.
 
 If the conditions apply multiple switches and scenes can be either turned
 on or off. Once the conditions do not apply anymore the opposite action
@@ -45,7 +47,7 @@ Multiple date periods when the condition should be apply. Date in MM.DD format
 
 ## conditions.conditionJunction, condition.conditionElements
 
-For complex conditions, multiple conditions may be combined using boolean
+For complex conditions, multiple conditions may be nested using boolean
 junctions.
 
 ## switches
@@ -71,14 +73,14 @@ Events that should be emitted if the condition toggles on or off.
 
 ## switches.thermostat.device, switches.thermostat.level
 
-Thermostat that should be changed if the condition toggles on or off. Sets the thermostat to its
-original level once the condition toggles back to off.
+Thermostat that should be changed if the condition toggles on or off. Sets
+the thermostat to its original level once the condition toggles back to off.
 
 # Events
 
 Custom events can be emitted when the condition toggles on or off.
-[EventWatcher](https://github.com/maros/Zway-EventWatcher) can then be used to catch and act
-upon these events.
+[EventWatcher](https://github.com/maros/Zway-EventWatcher) can then be used 
+to catch and act upon these events.
 
 # Virtual Devices
 
